@@ -1,23 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class UiManager : MonoBehaviour {
 
 	// Use this for initialization
-    private Dictionary<string,GameObject> uiDic;
+    private Dictionary<string, UIAtlas> uiDic;
+    private static UiManager instance;
 
-    void Awake()
-    {
-
-
+    public static UiManager GetInstance {
+        get {
+            if (instance == null) {
+                instance = new UiManager();
+            }
+            return instance;
+        }
     }
 
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public UIAtlas GetUIAtlas(string atlasName) {
+        if (uiDic == null) {
+           uiDic = new Dictionary<string, UIAtlas>();  
+
+           UIAtlas atlas = (UIAtlas) Resources.Load(atlasName, typeof(UIAtlas));
+
+           uiDic.Add(atlasName, atlas);
+        }
+
+        return uiDic[atlasName];
+    }
+
 }
